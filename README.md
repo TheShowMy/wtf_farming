@@ -1,4 +1,4 @@
-# [中文文档](README_zh.md)
+### [[中文文档]](README_zh.md)
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
