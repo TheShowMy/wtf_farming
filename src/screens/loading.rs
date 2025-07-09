@@ -1,5 +1,5 @@
-//! A loading screen during which game assets are loaded if necessary.
-//! This reduces stuttering, especially for audio on Wasm.
+//! 加载屏幕，在此期间如果有必要会加载游戏资源。
+//! 这可以减少卡顿，尤其是在 Wasm 上的音频。
 
 use bevy::prelude::*;
 

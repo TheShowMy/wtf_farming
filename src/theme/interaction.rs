@@ -12,9 +12,8 @@ pub(super) fn plugin(app: &mut App) {
     app.add_observer(play_on_click_sound_effect);
 }
 
-/// Palette for widget interactions. Add this to an entity that supports
-/// [`Interaction`]s, such as a button, to change its [`BackgroundColor`] based
-/// on the current interaction state.
+/// 小部件交互的调色板。将此添加到支持
+/// [`Interaction`] 的实体（例如按钮），以根据当前的交互状态更改其 [`BackgroundColor`]。
 #[derive(Component, Debug, Reflect)]
 #[reflect(Component)]
 pub struct InteractionPalette {

@@ -1,6 +1,6 @@
-//! Reusable UI widgets & theming.
+//! 可重用的 UI 小部件和主题。
 
-// Unused utilities may trigger this lints undesirably.
+// 未使用的实用程序可能会错误地触发此 lint。
 #![allow(dead_code)]
 
 pub mod interaction;

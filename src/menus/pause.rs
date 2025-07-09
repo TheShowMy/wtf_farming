@@ -1,4 +1,4 @@
-//! The pause menu.
+//! 暂停菜单。
 
 use bevy::{input::common_conditions::input_just_pressed, prelude::*};
 

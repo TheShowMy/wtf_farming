@@ -1,4 +1,4 @@
-//! Player-specific behavior.
+//! 玩家特定的行为。
 
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
@@ -20,7 +20,7 @@ pub(super) fn plugin(app: &mut App) {
     app.register_type::<PlayerAssets>();
     app.load_resource::<PlayerAssets>();
 
-    // Record directional input as movement controls.
+    // 将方向输入记录为移动控制。
     app.add_systems(
         Update,
         record_player_directional_input
@@ -29,14 +29,14 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-/// The player character.
+/// 玩家角色。
 pub fn player(
     max_speed: f32,
     player_assets: &PlayerAssets,
     texture_atlas_layouts: &mut Assets<TextureAtlasLayout>,
 ) -> impl Bundle {
-    // A texture atlas is a way to split a single image into a grid of related images.
-    // You can learn more in this example: https://github.com/bevyengine/bevy/blob/latest/examples/2d/texture_atlas.rs
+    // 纹理图集是一种将单个图像拆分为相关图像网格的方法。
+    // 您可以在此示例中了解更多信息：https://github.com/bevyengine/bevy/blob/latest/examples/2d/texture_atlas.rs
     let layout = TextureAtlasLayout::from_grid(UVec2::splat(32), 6, 2, Some(UVec2::splat(1)), None);
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
     let player_animation = PlayerAnimation::new();
@@ -70,7 +70,7 @@ fn record_player_directional_input(
     input: Res<ButtonInput<KeyCode>>,
     mut controller_query: Query<&mut MovementController, With<Player>>,
 ) {
-    // Collect directional input.
+    // 收集方向输入。
     let mut intent = Vec2::ZERO;
     if input.pressed(KeyCode::KeyW) || input.pressed(KeyCode::ArrowUp) {
         intent.y += 1.0;
@@ -85,11 +85,11 @@ fn record_player_directional_input(
         intent.x += 1.0;
     }
 
-    // Normalize intent so that diagonal movement is the same speed as horizontal / vertical.
-    // This should be omitted if the input comes from an analog stick instead.
+    // 归一化意图，以便对角移动的速度与水平/垂直移动相同。
+    // 如果输入来自模拟摇杆，则应省略此步骤。
     let intent = intent.normalize_or_zero();
 
-    // Apply movement intent to controllers.
+    // 将移动意图应用于控制器。
     for mut controller in &mut controller_query {
         controller.intent = intent;
     }

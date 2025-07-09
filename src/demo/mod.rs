@@ -1,7 +1,7 @@
-//! Demo gameplay. All of these modules are only intended for demonstration
-//! purposes and should be replaced with your own game logic.
-//! Feel free to change the logic found here if you feel like tinkering around
-//! to get a feeling for the template.
+//! 演示游戏玩法。这些模块仅用于演示
+//! 目的，并应替换为您自己的游戏逻辑。
+//! 如果您想尝试修改，请随意更改此处的逻辑
+//! 以熟悉模板。
 
 use bevy::prelude::*;
 

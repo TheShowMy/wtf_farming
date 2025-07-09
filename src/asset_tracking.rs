@@ -1,4 +1,4 @@
-//! A high-level way to load collections of asset handles as resources.
+//! 一种将资源句柄集合作为资源加载的高级方法。
 
 use std::collections::VecDeque;
 
@@ -10,9 +10,9 @@ pub(super) fn plugin(app: &mut App) {
 }
 
 pub trait LoadResource {
-    /// This will load the [`Resource`] as an [`Asset`]. When all of its asset dependencies
-    /// have been loaded, it will be inserted as a resource. This ensures that the resource only
-    /// exists when the assets are ready.
+    /// 这将把 [`Resource`] 作为 [`Asset`] 加载。当其所有的资源依赖项
+    /// 都已加载时，它将作为资源插入。这确保了资源仅在
+    /// 资源准备就绪时存在。
     fn load_resource<T: Resource + Asset + Clone + FromWorld>(&mut self) -> &mut Self;
 }
 
@@ -36,19 +36,19 @@ impl LoadResource for App {
     }
 }
 
-/// A function that inserts a loaded resource.
+/// 一个函数，用于插入已加载的资源。
 type InsertLoadedResource = fn(&mut World, &UntypedHandle);
 
 #[derive(Resource, Default)]
 pub struct ResourceHandles {
-    // Use a queue for waiting assets so they can be cycled through and moved to
-    // `finished` one at a time.
+    // 使用队列来存储等待的资源，以便可以逐一循环处理并移动到
+    // `finished`。
     waiting: VecDeque<(UntypedHandle, InsertLoadedResource)>,
     finished: Vec<UntypedHandle>,
 }
 
 impl ResourceHandles {
-    /// Returns true if all requested [`Asset`]s have finished loading and are available as [`Resource`]s.
+    /// 如果所有请求的 [`Asset`] 都已完成加载并可作为 [`Resource`] 使用，则返回 true。
     pub fn is_all_done(&self) -> bool {
         self.waiting.is_empty()
     }

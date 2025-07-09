@@ -1,4 +1,4 @@
-//! The game's menus and transitions between them.
+//! 游戏的菜单及其之间的过渡。
 
 mod credits;
 mod main;

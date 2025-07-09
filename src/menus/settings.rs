@@ -1,6 +1,6 @@
-//! The settings menu.
+//! 设置菜单。
 //!
-//! Additional settings and accessibility options should go here.
+//! 其他设置和辅助功能选项应放在此处。
 
 use bevy::{audio::Volume, input::common_conditions::input_just_pressed, prelude::*, ui::Val::*};
 

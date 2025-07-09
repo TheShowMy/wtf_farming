@@ -1,4 +1,4 @@
-//! The credits menu.
+//! 致谢菜单。
 
 use bevy::{
     ecs::spawn::SpawnIter, input::common_conditions::input_just_pressed, prelude::*, ui::Val::*,

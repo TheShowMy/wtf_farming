@@ -1,4 +1,4 @@
-//! Helper functions for creating common widgets.
+//! 创建常见小部件的辅助函数。
 
 use std::borrow::Cow;
 
@@ -10,7 +10,7 @@ use bevy::{
 
 use crate::theme::{interaction::InteractionPalette, palette::*};
 
-/// A root UI node that fills the window and centers its content.
+/// 一个填充窗口并将其内容居中的根 UI 节点。
 pub fn ui_root(name: impl Into<Cow<'static, str>>) -> impl Bundle {
     (
         Name::new(name),
@@ -24,12 +24,12 @@ pub fn ui_root(name: impl Into<Cow<'static, str>>) -> impl Bundle {
             row_gap: Px(20.0),
             ..default()
         },
-        // Don't block picking events for other UI roots.
+        // 不阻止其他 UI 根的拾取事件。
         Pickable::IGNORE,
     )
 }
 
-/// A simple header label. Bigger than [`label`].
+/// 一个简单的标题标签。比 [`label`] 更大。
 pub fn header(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Header"),
@@ -39,7 +39,7 @@ pub fn header(text: impl Into<String>) -> impl Bundle {
     )
 }
 
-/// A simple text label.
+/// 一个简单的文本标签。
 pub fn label(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Label"),
@@ -49,7 +49,7 @@ pub fn label(text: impl Into<String>) -> impl Bundle {
     )
 }
 
-/// A large rounded button with text and an action defined as an [`Observer`].
+/// 一个带有文本和由 [`Observer`] 定义的操作的大型圆角按钮。
 pub fn button<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
 where
     E: Event,
@@ -72,7 +72,7 @@ where
     )
 }
 
-/// A small square button with text and an action defined as an [`Observer`].
+/// 一个带有文本和由 [`Observer`] 定义的操作的小型方形按钮。
 pub fn button_small<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
 where
     E: Event,
@@ -92,7 +92,7 @@ where
     )
 }
 
-/// A simple button with text and an action defined as an [`Observer`]. The button's layout is provided by `button_bundle`.
+/// 一个带有文本和由 [`Observer`] 定义的操作的简单按钮。按钮的布局由 `button_bundle` 提供。
 fn button_base<E, B, M, I>(
     text: impl Into<String>,
     action: I,
@@ -124,7 +124,7 @@ where
                         Text(text),
                         TextFont::from_font_size(40.0),
                         TextColor(BUTTON_TEXT),
-                        // Don't bubble picking events from the text up to the button.
+                        // 不将文本的拾取事件冒泡到按钮。
                         Pickable::IGNORE,
                     )],
                 ))

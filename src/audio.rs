@@ -10,33 +10,33 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-/// An organizational marker component that should be added to a spawned [`AudioPlayer`] if it's in the
-/// general "music" category (e.g. global background music, soundtrack).
+/// 一个组织标记组件，如果它属于一般的“音乐”类别（例如全局背景音乐、原声带），
+/// 应该添加到生成的 [`AudioPlayer`]。
 ///
-/// This can then be used to query for and operate on sounds in that category.
+/// 然后可以用它来查询和操作该类别中的声音。
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
 pub struct Music;
 
-/// A music audio instance.
+/// 一个音乐音频实例。
 pub fn music(handle: Handle<AudioSource>) -> impl Bundle {
     (AudioPlayer(handle), PlaybackSettings::LOOP, Music)
 }
 
-/// An organizational marker component that should be added to a spawned [`AudioPlayer`] if it's in the
-/// general "sound effect" category (e.g. footsteps, the sound of a magic spell, a door opening).
+/// 一个组织标记组件，如果它属于一般的“音效”类别（例如脚步声、魔法咒语的声音、门打开的声音），
+/// 应该添加到生成的 [`AudioPlayer`]。
 ///
-/// This can then be used to query for and operate on sounds in that category.
+/// 然后可以用它来查询和操作该类别中的声音。
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
 pub struct SoundEffect;
 
-/// A sound effect audio instance.
+/// 一个音效音频实例。
 pub fn sound_effect(handle: Handle<AudioSource>) -> impl Bundle {
     (AudioPlayer(handle), PlaybackSettings::DESPAWN, SoundEffect)
 }
 
-/// [`GlobalVolume`] doesn't apply to already-running audio entities, so this system will update them.
+/// [`GlobalVolume`] 不适用于已经运行的音频实体，因此此系统将更新它们。
 fn apply_global_volume(
     global_volume: Res<GlobalVolume>,
     mut audio_query: Query<(&PlaybackSettings, &mut AudioSink)>,

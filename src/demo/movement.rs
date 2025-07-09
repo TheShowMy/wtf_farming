@@ -1,17 +1,14 @@
-//! Handle player input and translate it into movement through a character
-//! controller. A character controller is the collection of systems that govern
-//! the movement of characters.
+//! 处理玩家输入并通过角色控制器将其转换为移动。
+//! 角色控制器是管理角色移动的系统集合。
 //!
-//! In our case, the character controller has the following logic:
-//! - Set [`MovementController`] intent based on directional keyboard input.
-//!   This is done in the `player` module, as it is specific to the player
-//!   character.
-//! - Apply movement based on [`MovementController`] intent and maximum speed.
-//! - Wrap the character within the window.
+//! 在我们的案例中，角色控制器具有以下逻辑：
+//! - 根据方向键输入设置 [`MovementController`] 的意图。
+//!   这是在 `player` 模块中完成的，因为它特定于玩家角色。
+//! - 根据 [`MovementController`] 的意图和最大速度应用移动。
+//! - 在窗口内包裹角色。
 //!
-//! Note that the implementation used here is limited for demonstration
-//! purposes. If you want to move the player in a smoother way,
-//! consider using a [fixed timestep](https://github.com/bevyengine/bevy/blob/main/examples/movement/physics_in_fixed_timestep.rs).
+//! 请注意，此处使用的实现仅用于演示目的。如果您希望以更平滑的方式移动玩家，
+//! 可以考虑使用 [固定时间步长](https://github.com/bevyengine/bevy/blob/main/examples/movement/physics_in_fixed_timestep.rs)。
 
 use bevy::{prelude::*, window::PrimaryWindow};
 
@@ -30,17 +27,16 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-/// These are the movement parameters for our character controller.
-/// For now, this is only used for a single player, but it could power NPCs or
-/// other players as well.
+/// 这些是我们角色控制器的移动参数。
+/// 目前，这仅用于单个玩家，但它也可以为 NPC 或其他玩家提供动力。
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 pub struct MovementController {
-    /// The direction the character wants to move in.
+    /// 角色想要移动的方向。
     pub intent: Vec2,
 
-    /// Maximum speed in world units per second.
-    /// 1 world unit = 1 pixel when using the default 2D camera and no physics engine.
+    /// 每秒的最大速度（以世界单位为单位）。
+    /// 1 个世界单位 = 使用默认 2D 摄像机且无物理引擎时的 1 个像素。
     pub max_speed: f32,
 }
 
@@ -48,7 +44,7 @@ impl Default for MovementController {
     fn default() -> Self {
         Self {
             intent: Vec2::ZERO,
-            // 400 pixels per second is a nice default, but we can still vary this per character.
+            // 每秒 400 像素是一个不错的默认值，但我们仍然可以根据角色的不同而有所变化。
             max_speed: 400.0,
         }
     }
@@ -68,6 +64,7 @@ fn apply_movement(
 #[reflect(Component)]
 pub struct ScreenWrap;
 
+/// 应用屏幕包裹逻辑。
 fn apply_screen_wrap(
     window: Single<&Window, With<PrimaryWindow>>,
     mut wrap_query: Query<&mut Transform, With<ScreenWrap>>,

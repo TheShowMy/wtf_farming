@@ -1,4 +1,4 @@
-//! The screen state for the main gameplay.
+//! 主游戏的屏幕状态。
 
 use bevy::{input::common_conditions::input_just_pressed, prelude::*, ui::Val::*};
 
@@ -7,7 +7,7 @@ use crate::{Pause, demo::level::spawn_level, menus::Menu, screens::Screen};
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Gameplay), spawn_level);
 
-    // Toggle pause on key press.
+    // 按键切换暂停。
     app.add_systems(
         Update,
         (

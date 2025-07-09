@@ -1,4 +1,4 @@
-//! The main menu (seen on the title screen).
+//! 主菜单（显示在标题屏幕上）。
 
 use bevy::prelude::*;
 

@@ -1,4 +1,4 @@
-//! A splash screen that plays briefly at startup.
+//! 启动画面，在启动时短暂播放。
 
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
@@ -9,11 +9,11 @@ use bevy::{
 use crate::{AppSystems, screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
-    // Spawn splash screen.
+    // 生成启动画面。
     app.insert_resource(ClearColor(SPLASH_BACKGROUND_COLOR));
     app.add_systems(OnEnter(Screen::Splash), spawn_splash_screen);
 
-    // Animate splash screen.
+    // 动画化启动画面。
     app.add_systems(
         Update,
         (
@@ -23,7 +23,7 @@ pub(super) fn plugin(app: &mut App) {
             .run_if(in_state(Screen::Splash)),
     );
 
-    // Add splash timer.
+    // 添加启动计时器。
     app.register_type::<SplashTimer>();
     app.add_systems(OnEnter(Screen::Splash), insert_splash_timer);
     app.add_systems(OnExit(Screen::Splash), remove_splash_timer);
@@ -36,7 +36,7 @@ pub(super) fn plugin(app: &mut App) {
             .run_if(in_state(Screen::Splash)),
     );
 
-    // Exit the splash screen early if the player hits escape.
+    // 如果玩家按下 Escape 键，提前退出启动画面。
     app.add_systems(
         Update,
         enter_title_screen
@@ -61,12 +61,12 @@ fn spawn_splash_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..default()
             },
             ImageNode::new(asset_server.load_with_settings(
-                // This should be an embedded asset for instant loading, but that is
-                // currently [broken on Windows Wasm builds](https://github.com/bevyengine/bevy/issues/14246).
+                // 这应该是一个嵌入式资源以实现即时加载，但
+                // 当前 [在 Windows Wasm 构建中存在问题](https://github.com/bevyengine/bevy/issues/14246)。
                 "images/splash.png",
                 |settings: &mut ImageLoaderSettings| {
-                    // Make an exception for the splash image in case
-                    // `ImagePlugin::default_nearest()` is used for pixel art.
+                    // 为启动画面图像做一个例外，以防
+                    // 使用 `ImagePlugin::default_nearest()` 来处理像素艺术。
                     settings.sampler = ImageSampler::linear();
                 },
             )),
@@ -82,21 +82,21 @@ fn spawn_splash_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 struct ImageNodeFadeInOut {
-    /// Total duration in seconds.
+    /// 总持续时间（以秒为单位）。
     total_duration: f32,
-    /// Fade duration in seconds.
+    /// 淡入淡出持续时间（以秒为单位）。
     fade_duration: f32,
-    /// Current progress in seconds, between 0 and [`Self::total_duration`].
+    /// 当前进度（以秒为单位），介于 0 和 [`Self::total_duration`] 之间。
     t: f32,
 }
 
 impl ImageNodeFadeInOut {
     fn alpha(&self) -> f32 {
-        // Normalize by duration.
+        // 按持续时间归一化。
         let t = (self.t / self.total_duration).clamp(0.0, 1.0);
         let fade = self.fade_duration / self.total_duration;
 
-        // Regular trapezoid-shaped graph, flat at the top with alpha = 1.0.
+        // 常规梯形图形，顶部平坦，alpha = 1.0。
         ((1.0 - (2.0 * t - 1.0).abs()) / fade).min(1.0)
     }
 }

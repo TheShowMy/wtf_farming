@@ -1,4 +1,4 @@
-//! The title screen that appears after the splash screen.
+//! 启动画面之后出现的标题屏幕。
 
 use bevy::prelude::*;
 

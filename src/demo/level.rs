@@ -1,4 +1,4 @@
-//! Spawn the main level.
+//! 生成主关卡。
 
 use bevy::prelude::*;
 
@@ -30,7 +30,7 @@ impl FromWorld for LevelAssets {
     }
 }
 
-/// A system that spawns the main level.
+/// 一个系统，用于生成主关卡。
 pub fn spawn_level(
     mut commands: Commands,
     level_assets: Res<LevelAssets>,
