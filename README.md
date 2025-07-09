@@ -1,3 +1,6 @@
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+
+[中文](README_zh.md)
 # Wtf Farming
 
 This project was generated using the [Bevy New 2D](https://github.com/TheBevyFlock/bevy_new_2d) template.
