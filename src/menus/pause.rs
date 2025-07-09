@@ -2,7 +2,16 @@
 
 use bevy::{input::common_conditions::input_just_pressed, prelude::*};
 
-use crate::{menus::Menu, screens::Screen, theme::widget};
+use crate::{
+    FntAssets,
+    i18n::{
+        LanguageRes,
+        config::{MAIN_SETTINGS, PAUSE_CONTINUE, PAUSE_GAME_TITLE, PAUSE_QUIT_TO_TITLE},
+    },
+    menus::Menu,
+    screens::Screen,
+    theme::widget,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Pause), spawn_pause_menu);
@@ -12,16 +21,28 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-fn spawn_pause_menu(mut commands: Commands) {
+fn spawn_pause_menu(mut commands: Commands, font_res: Res<FntAssets>, lang_res: Res<LanguageRes>) {
     commands.spawn((
         widget::ui_root("Pause Menu"),
         GlobalZIndex(2),
         StateScoped(Menu::Pause),
         children![
-            widget::header("Game paused"),
-            widget::button("Continue", close_menu),
-            widget::button("Settings", open_settings_menu),
-            widget::button("Quit to title", quit_to_title),
+            widget::header(lang_res.get(PAUSE_GAME_TITLE), font_res.pixel.clone()),
+            widget::button(
+                lang_res.get(PAUSE_CONTINUE),
+                font_res.pixel.clone(),
+                close_menu
+            ),
+            widget::button(
+                lang_res.get(MAIN_SETTINGS),
+                font_res.pixel.clone(),
+                open_settings_menu
+            ),
+            widget::button(
+                lang_res.get(PAUSE_QUIT_TO_TITLE),
+                font_res.pixel.clone(),
+                quit_to_title
+            ),
         ],
     ));
 }

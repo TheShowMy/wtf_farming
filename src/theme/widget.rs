@@ -30,27 +30,27 @@ pub fn ui_root(name: impl Into<Cow<'static, str>>) -> impl Bundle {
 }
 
 /// 一个简单的标题标签。比 [`label`] 更大。
-pub fn header(text: impl Into<String>) -> impl Bundle {
+pub fn header(text: impl Into<String>, font: Handle<Font>) -> impl Bundle {
     (
         Name::new("Header"),
         Text(text.into()),
-        TextFont::from_font_size(40.0),
+        TextFont::from_font_size(40.0).with_font(font),
         TextColor(HEADER_TEXT),
     )
 }
 
 /// 一个简单的文本标签。
-pub fn label(text: impl Into<String>) -> impl Bundle {
+pub fn label(text: impl Into<String>, font: Handle<Font>) -> impl Bundle {
     (
         Name::new("Label"),
         Text(text.into()),
-        TextFont::from_font_size(24.0),
+        TextFont::from_font_size(24.0).with_font(font),
         TextColor(LABEL_TEXT),
     )
 }
 
 /// 一个带有文本和由 [`Observer`] 定义的操作的大型圆角按钮。
-pub fn button<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
+pub fn button<E, B, M, I>(text: impl Into<String>, font: Handle<Font>, action: I) -> impl Bundle
 where
     E: Event,
     B: Bundle,
@@ -58,6 +58,7 @@ where
 {
     button_base(
         text,
+        font,
         action,
         (
             Node {
@@ -73,7 +74,11 @@ where
 }
 
 /// 一个带有文本和由 [`Observer`] 定义的操作的小型方形按钮。
-pub fn button_small<E, B, M, I>(text: impl Into<String>, action: I) -> impl Bundle
+pub fn button_small<E, B, M, I>(
+    text: impl Into<String>,
+    font: Handle<Font>,
+    action: I,
+) -> impl Bundle
 where
     E: Event,
     B: Bundle,
@@ -81,6 +86,7 @@ where
 {
     button_base(
         text,
+        font,
         action,
         Node {
             width: Px(30.0),
@@ -95,6 +101,7 @@ where
 /// 一个带有文本和由 [`Observer`] 定义的操作的简单按钮。按钮的布局由 `button_bundle` 提供。
 fn button_base<E, B, M, I>(
     text: impl Into<String>,
+    font: Handle<Font>,
     action: I,
     button_bundle: impl Bundle,
 ) -> impl Bundle
@@ -122,7 +129,11 @@ where
                     children![(
                         Name::new("Button Text"),
                         Text(text),
-                        TextFont::from_font_size(40.0),
+                        TextFont {
+                            font,
+                            font_size: 40.0,
+                            ..default()
+                        },
                         TextColor(BUTTON_TEXT),
                         // 不将文本的拾取事件冒泡到按钮。
                         Pickable::IGNORE,

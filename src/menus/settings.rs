@@ -4,7 +4,16 @@
 
 use bevy::{audio::Volume, input::common_conditions::input_just_pressed, prelude::*, ui::Val::*};
 
-use crate::{menus::Menu, screens::Screen, theme::prelude::*};
+use crate::{
+    FntAssets,
+    i18n::{
+        LanguageRes,
+        config::{BACK, SETTINGS_MASTER_VOLUME, SETTINGS_TITLE},
+    },
+    menus::Menu,
+    screens::Screen,
+    theme::prelude::*,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Settings), spawn_settings_menu);
@@ -20,20 +29,27 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-fn spawn_settings_menu(mut commands: Commands) {
+fn spawn_settings_menu(
+    mut commands: Commands,
+    lang_res: Res<LanguageRes>,
+    font_res: Res<FntAssets>,
+) {
     commands.spawn((
         widget::ui_root("Settings Menu"),
         GlobalZIndex(2),
         StateScoped(Menu::Settings),
         children![
-            widget::header("Settings"),
-            settings_grid(),
-            widget::button("Back", go_back_on_click),
+            widget::header(lang_res.get(SETTINGS_TITLE), font_res.pixel.clone()),
+            settings_grid(
+                font_res.pixel.clone(),
+                &lang_res.get(SETTINGS_MASTER_VOLUME)
+            ),
+            widget::button(lang_res.get(BACK), font_res.pixel.clone(), go_back_on_click),
         ],
     ));
 }
 
-fn settings_grid() -> impl Bundle {
+fn settings_grid(font: Handle<Font>, label: &str) -> impl Bundle {
     (
         Name::new("Settings Grid"),
         Node {
@@ -45,18 +61,18 @@ fn settings_grid() -> impl Bundle {
         },
         children![
             (
-                widget::label("Master Volume"),
+                widget::label(label, font.clone()),
                 Node {
                     justify_self: JustifySelf::End,
                     ..default()
                 }
             ),
-            global_volume_widget(),
+            global_volume_widget(font),
         ],
     )
 }
 
-fn global_volume_widget() -> impl Bundle {
+fn global_volume_widget(font: Handle<Font>) -> impl Bundle {
     (
         Name::new("Global Volume Widget"),
         Node {
@@ -64,7 +80,7 @@ fn global_volume_widget() -> impl Bundle {
             ..default()
         },
         children![
-            widget::button_small("-", lower_global_volume),
+            widget::button_small("-", font.clone(), lower_global_volume),
             (
                 Name::new("Current Volume"),
                 Node {
@@ -72,9 +88,9 @@ fn global_volume_widget() -> impl Bundle {
                     justify_content: JustifyContent::Center,
                     ..default()
                 },
-                children![(widget::label(""), GlobalVolumeLabel)],
+                children![(widget::label("", font.clone()), GlobalVolumeLabel)],
             ),
-            widget::button_small("+", raise_global_volume),
+            widget::button_small("+", font, raise_global_volume),
         ],
     )
 }

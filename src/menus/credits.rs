@@ -4,7 +4,14 @@ use bevy::{
     ecs::spawn::SpawnIter, input::common_conditions::input_just_pressed, prelude::*, ui::Val::*,
 };
 
-use crate::{asset_tracking::LoadResource, audio::music, menus::Menu, theme::prelude::*};
+use crate::{
+    FntAssets,
+    asset_tracking::LoadResource,
+    audio::music,
+    i18n::{LanguageRes, config::BACK},
+    menus::Menu,
+    theme::prelude::*,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Credits), spawn_credits_menu);
@@ -18,41 +25,51 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Credits), start_credits_music);
 }
 
-fn spawn_credits_menu(mut commands: Commands) {
+fn spawn_credits_menu(
+    mut commands: Commands,
+    font_res: Res<FntAssets>,
+    lang_res: Res<LanguageRes>,
+) {
     commands.spawn((
         widget::ui_root("Credits Menu"),
         GlobalZIndex(2),
         StateScoped(Menu::Credits),
         children![
-            widget::header("Created by"),
-            created_by(),
-            widget::header("Assets"),
-            assets(),
-            widget::button("Back", go_back_on_click),
+            widget::header("Created by", font_res.pixel.clone()),
+            created_by(font_res.pixel.clone()),
+            widget::header("Assets", font_res.pixel.clone()),
+            assets(font_res.pixel.clone()),
+            widget::button(lang_res.get(BACK), font_res.pixel.clone(), go_back_on_click),
         ],
     ));
 }
 
-fn created_by() -> impl Bundle {
-    grid(vec![
-        ["Joe Shmoe", "Implemented alligator wrestling AI"],
-        ["Jane Doe", "Made the music for the alien invasion"],
-    ])
-}
-
-fn assets() -> impl Bundle {
-    grid(vec![
-        ["Ducky sprite", "CC0 by Caz Creates Games"],
-        ["Button SFX", "CC0 by Jaszunio15"],
-        ["Music", "CC BY 3.0 by Kevin MacLeod"],
-        [
-            "Bevy logo",
-            "All rights reserved by the Bevy Foundation, permission granted for splash screen use when unmodified",
+fn created_by(font: Handle<Font>) -> impl Bundle {
+    grid(
+        vec![
+            ["Joe Shmoe", "Implemented alligator wrestling AI"],
+            ["Jane Doe", "Made the music for the alien invasion"],
         ],
-    ])
+        font,
+    )
 }
 
-fn grid(content: Vec<[&'static str; 2]>) -> impl Bundle {
+fn assets(font: Handle<Font>) -> impl Bundle {
+    grid(
+        vec![
+            ["Ducky sprite", "CC0 by Caz Creates Games"],
+            ["Button SFX", "CC0 by Jaszunio15"],
+            ["Music", "CC BY 3.0 by Kevin MacLeod"],
+            [
+                "Bevy logo",
+                "All rights reserved by the Bevy Foundation, permission granted for splash screen use when unmodified",
+            ],
+        ],
+        font,
+    )
+}
+
+fn grid(content: Vec<[&'static str; 2]>, font: Handle<Font>) -> impl Bundle {
     (
         Name::new("Grid"),
         Node {
@@ -63,9 +80,9 @@ fn grid(content: Vec<[&'static str; 2]>) -> impl Bundle {
             ..default()
         },
         Children::spawn(SpawnIter(content.into_iter().flatten().enumerate().map(
-            |(i, text)| {
+            move |(i, text)| {
                 (
-                    widget::label(text),
+                    widget::label(text, font.clone()),
                     Node {
                         justify_self: if i % 2 == 0 {
                             JustifySelf::End

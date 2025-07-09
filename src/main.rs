@@ -8,11 +8,14 @@ mod audio;
 mod demo;
 #[cfg(feature = "dev")]
 mod dev_tools;
+mod i18n;
 mod menus;
 mod screens;
 mod theme;
 
 use bevy::{asset::AssetMetaCheck, prelude::*};
+
+use crate::asset_tracking::LoadResource;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -45,6 +48,7 @@ impl Plugin for AppPlugin {
 
         // 添加其他插件。
         app.add_plugins((
+            i18n::plugin,
             asset_tracking::plugin,
             audio::plugin,
             demo::plugin,
@@ -54,6 +58,10 @@ impl Plugin for AppPlugin {
             screens::plugin,
             theme::plugin,
         ));
+
+        // 注册 FntAssets 资源。全局字体资源。
+        app.register_type::<FntAssets>();
+        app.load_resource::<FntAssets>();
 
         // 通过在此处添加新 AppSystems 变体来排序：
         app.configure_sets(
@@ -99,4 +107,20 @@ struct PausableSystems;
 
 fn spawn_camera(mut commands: Commands) {
     commands.spawn((Name::new("Camera"), Camera2d));
+}
+
+#[derive(Resource, Asset, Clone, Reflect)]
+#[reflect(Resource)]
+pub struct FntAssets {
+    #[dependency]
+    pixel: Handle<Font>,
+}
+
+impl FromWorld for FntAssets {
+    fn from_world(world: &mut World) -> Self {
+        let assets = world.resource::<AssetServer>();
+        Self {
+            pixel: assets.load("fonts/fusion-pixel.ttf"),
+        }
+    }
 }

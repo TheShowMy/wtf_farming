@@ -2,29 +2,56 @@
 
 use bevy::prelude::*;
 
-use crate::{asset_tracking::ResourceHandles, menus::Menu, screens::Screen, theme::widget};
+use crate::{
+    FntAssets,
+    asset_tracking::ResourceHandles,
+    i18n::{
+        LanguageRes,
+        config::{MAIN_CREDITS, MAIN_EXIT, MAIN_PLAY, MAIN_SETTINGS},
+    },
+    menus::Menu,
+    screens::Screen,
+    theme::widget,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Menu::Main), spawn_main_menu);
 }
 
-fn spawn_main_menu(mut commands: Commands) {
+fn spawn_main_menu(mut commands: Commands, lang_res: Res<LanguageRes>, font_res: Res<FntAssets>) {
+    let font = font_res.pixel.clone();
     commands.spawn((
         widget::ui_root("Main Menu"),
         GlobalZIndex(2),
         StateScoped(Menu::Main),
         #[cfg(not(target_family = "wasm"))]
         children![
-            widget::button("Play", enter_loading_or_gameplay_screen),
-            widget::button("Settings", open_settings_menu),
-            widget::button("Credits", open_credits_menu),
-            widget::button("Exit", exit_app),
+            widget::button(
+                lang_res.get(MAIN_PLAY),
+                font.clone(),
+                enter_loading_or_gameplay_screen
+            ),
+            widget::button(
+                lang_res.get(MAIN_SETTINGS),
+                font.clone(),
+                open_settings_menu
+            ),
+            widget::button(lang_res.get(MAIN_CREDITS), font.clone(), open_credits_menu),
+            widget::button(lang_res.get(MAIN_EXIT), font.clone(), exit_app),
         ],
         #[cfg(target_family = "wasm")]
         children![
-            widget::button("Play", enter_loading_or_gameplay_screen),
-            widget::button("Settings", open_settings_menu),
-            widget::button("Credits", open_credits_menu),
+            widget::button(
+                lang_res.get(MAIN_PLAY),
+                font.clone(),
+                enter_loading_or_gameplay_screen
+            ),
+            widget::button(
+                lang_res.get(MAIN_SETTINGS),
+                font.clone(),
+                open_settings_menu
+            ),
+            widget::button(lang_res.get(MAIN_CREDITS), font.clone(), open_credits_menu),
         ],
     ));
 }
