@@ -13,8 +13,8 @@ pub(super) fn plugin(app: &mut App) {
 /// 多语言Id
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Default)]
 pub enum LanguageId {
-    #[default]
     ZhCn, // 简体中文
+    #[default]
     EnUs, // 英语
 }
 
@@ -94,9 +94,9 @@ mod tests {
         lang_res.zh_cn("HELLO", "你好");
         lang_res.en_us("HELLO", "Hello");
 
-        assert_eq!(lang_res.get("HELLO"), "你好"); // 默认语言为简体中文
-        lang_res.set_language(LanguageId::EnUs);
-        assert_eq!(lang_res.get("HELLO"), "Hello"); // 切换到英语
+        assert_eq!(lang_res.get("HELLO"), "Hello"); // 默认语言为英文
+        lang_res.set_language(LanguageId::ZhCn);
+        assert_eq!(lang_res.get("HELLO"), "你好"); // 切换到中文
         assert_eq!(lang_res.get("UNKNOWN_KEY"), "UNKNOWN_KEY"); // 未知 Key 返回原始值
     }
 

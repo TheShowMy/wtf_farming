@@ -26,6 +26,7 @@ pub const SETTINGS_CURRENT_VOLUME: &str = "CURRENT_VOLUME";
 // 全局文本
 /// 返回
 pub const BACK: &str = "BACK";
+pub const GAME_TITLE: &str = "GAME_TITLE";
 
 pub(crate) fn init_language_res() -> LanguageRes {
     let mut language_res = LanguageRes::default();
@@ -61,6 +62,9 @@ pub(crate) fn init_language_res() -> LanguageRes {
 
     language_res.zh_cn(BACK, "返回");
     language_res.en_us(BACK, "BACK");
+
+    language_res.zh_cn(GAME_TITLE, "种个锤子地");
+    language_res.en_us(GAME_TITLE, "WTF Farming");
 
     language_res
 }

@@ -29,6 +29,16 @@ pub fn ui_root(name: impl Into<Cow<'static, str>>) -> impl Bundle {
     )
 }
 
+/// size 80 的标签。比 [`label`] 更大。
+pub fn label_size_80(text: impl Into<String>, font: Handle<Font>) -> impl Bundle {
+    (
+        Name::new("Header"),
+        Text(text.into()),
+        TextFont::from_font_size(80.0).with_font(font),
+        TextColor(HEADER_TEXT),
+    )
+}
+
 /// 一个简单的标题标签。比 [`label`] 更大。
 pub fn header(text: impl Into<String>, font: Handle<Font>) -> impl Bundle {
     (
@@ -66,6 +76,36 @@ where
                 height: Px(80.0),
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::Center,
+                ..default()
+            },
+            BorderRadius::MAX,
+        ),
+    )
+}
+
+/// 一个带有文本和由 [`Observer`] 定义的操作的大型圆角按钮。
+pub fn button_size<E, B, M, I>(
+    text: impl Into<String>,
+    font: Handle<Font>,
+    size: Vec2,
+    action: I,
+) -> impl Bundle
+where
+    E: Event,
+    B: Bundle,
+    I: IntoObserverSystem<E, B, M>,
+{
+    button_base(
+        text,
+        font,
+        action,
+        (
+            Node {
+                width: Px(size.x),
+                height: Px(size.y),
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                align_self: AlignSelf::Center,
                 ..default()
             },
             BorderRadius::MAX,
