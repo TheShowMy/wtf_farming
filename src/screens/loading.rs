@@ -29,7 +29,7 @@ fn spawn_loading_screen(mut commands: Commands, font_res: Res<FntAssets>) {
         widget::ui_root("Loading Screen"),
         StateScoped(Screen::Loading),
         LoadingScreen,
-        children![widget::label("Loading...", font_res.pixel.clone())],
+        children![widget::label("Loading...", font_res.pixel())],
     ));
 }
 

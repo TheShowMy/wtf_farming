@@ -3,6 +3,7 @@
 mod credits;
 mod main;
 mod pause;
+mod select_game;
 mod settings;
 
 use bevy::prelude::*;
@@ -15,6 +16,7 @@ pub(super) fn plugin(app: &mut App) {
         main::plugin,
         settings::plugin,
         pause::plugin,
+        select_game::plugin,
     ));
 }
 
@@ -26,5 +28,6 @@ pub enum Menu {
     Main,
     Credits,
     Settings,
+    SelectGame,
     Pause,
 }

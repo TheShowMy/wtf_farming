@@ -39,12 +39,9 @@ fn spawn_settings_menu(
         GlobalZIndex(2),
         StateScoped(Menu::Settings),
         children![
-            widget::header(lang_res.get(SETTINGS_TITLE), font_res.pixel.clone()),
-            settings_grid(
-                font_res.pixel.clone(),
-                &lang_res.get(SETTINGS_MASTER_VOLUME)
-            ),
-            widget::button(lang_res.get(BACK), font_res.pixel.clone(), go_back_on_click),
+            widget::header(lang_res.get(SETTINGS_TITLE), font_res.pixel()),
+            settings_grid(font_res.pixel(), &lang_res.get(SETTINGS_MASTER_VOLUME)),
+            widget::button(lang_res.get(BACK), font_res.pixel(), go_back_on_click),
         ],
     ));
 }

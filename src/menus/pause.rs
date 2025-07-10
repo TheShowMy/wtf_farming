@@ -27,20 +27,16 @@ fn spawn_pause_menu(mut commands: Commands, font_res: Res<FntAssets>, lang_res: 
         GlobalZIndex(2),
         StateScoped(Menu::Pause),
         children![
-            widget::header(lang_res.get(PAUSE_GAME_TITLE), font_res.pixel.clone()),
-            widget::button(
-                lang_res.get(PAUSE_CONTINUE),
-                font_res.pixel.clone(),
-                close_menu
-            ),
+            widget::header(lang_res.get(PAUSE_GAME_TITLE), font_res.pixel()),
+            widget::button(lang_res.get(PAUSE_CONTINUE), font_res.pixel(), close_menu),
             widget::button(
                 lang_res.get(MAIN_SETTINGS),
-                font_res.pixel.clone(),
+                font_res.pixel(),
                 open_settings_menu
             ),
             widget::button(
                 lang_res.get(PAUSE_QUIT_TO_TITLE),
-                font_res.pixel.clone(),
+                font_res.pixel(),
                 quit_to_title
             ),
         ],

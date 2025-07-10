@@ -116,6 +116,13 @@ pub struct FntAssets {
     pixel: Handle<Font>,
 }
 
+impl FntAssets {
+    /// 获取像素字体。
+    pub fn pixel(&self) -> Handle<Font> {
+        self.pixel.clone()
+    }
+}
+
 impl FromWorld for FntAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();

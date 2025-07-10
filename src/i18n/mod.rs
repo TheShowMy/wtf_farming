@@ -7,11 +7,12 @@ use bevy::{platform::collections::HashMap, prelude::*};
 pub mod config;
 
 pub(super) fn plugin(app: &mut App) {
+    app.register_type::<LanguageRes>();
     app.insert_resource::<LanguageRes>(config::init_language_res());
 }
 
 /// 多语言Id
-#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Default)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Default, Reflect)]
 pub enum LanguageId {
     ZhCn, // 简体中文
     #[default]
@@ -29,7 +30,8 @@ impl fmt::Display for LanguageId {
 }
 
 /// 多语言配置
-#[derive(Resource)]
+#[derive(Resource, Asset, Clone, Reflect)]
+#[reflect(Resource)]
 pub struct LanguageRes {
     pub curr_language: LanguageId,
     pub language_list: Vec<LanguageId>,

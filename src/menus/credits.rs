@@ -35,11 +35,11 @@ fn spawn_credits_menu(
         GlobalZIndex(2),
         StateScoped(Menu::Credits),
         children![
-            widget::header("Created by", font_res.pixel.clone()),
-            created_by(font_res.pixel.clone()),
-            widget::header("Assets", font_res.pixel.clone()),
-            assets(font_res.pixel.clone()),
-            widget::button(lang_res.get(BACK), font_res.pixel.clone(), go_back_on_click),
+            widget::header("Created by", font_res.pixel()),
+            created_by(font_res.pixel()),
+            widget::header("Assets", font_res.pixel()),
+            assets(font_res.pixel()),
+            widget::button(lang_res.get(BACK), font_res.pixel(), go_back_on_click),
         ],
     ));
 }

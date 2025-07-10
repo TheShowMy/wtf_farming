@@ -22,11 +22,15 @@ pub const SETTINGS_TITLE: &str = "SETTINGS_TITLE";
 pub const SETTINGS_MASTER_VOLUME: &str = "MASTER_VOLUME";
 /// 设置界面当前音量
 pub const SETTINGS_CURRENT_VOLUME: &str = "CURRENT_VOLUME";
+/// 选择游戏界面标题
+pub const SELECT_GAME_TITLE: &str = "SELECT_GAME_TITLE";
 
 // 全局文本
 /// 返回
 pub const BACK: &str = "BACK";
 pub const GAME_TITLE: &str = "GAME_TITLE";
+pub const GAMES_NAME_1: &str = "GAMES_NAME_1";
+pub const GAMES_DESCRIPTION_1: &str = "GAMES_DESCRIPTION_1";
 
 pub(crate) fn init_language_res() -> LanguageRes {
     let mut language_res = LanguageRes::default();
@@ -65,6 +69,21 @@ pub(crate) fn init_language_res() -> LanguageRes {
 
     language_res.zh_cn(GAME_TITLE, "种个锤子地");
     language_res.en_us(GAME_TITLE, "WTF Farming");
+
+    language_res.zh_cn(GAMES_NAME_1, "保护那块地!!");
+    language_res.en_us(GAMES_NAME_1, "Protect the Land!!");
+
+    language_res.zh_cn(
+        GAMES_DESCRIPTION_1,
+        "一个简单的塔防游戏，保护你的土地免受敌人的侵袭。",
+    );
+    language_res.en_us(
+        GAMES_DESCRIPTION_1,
+        "A simple tower defense game to protect your land from enemies.",
+    );
+
+    language_res.zh_cn(SELECT_GAME_TITLE, "选择游戏");
+    language_res.en_us(SELECT_GAME_TITLE, "Select Game");
 
     language_res
 }
