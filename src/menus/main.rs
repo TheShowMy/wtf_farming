@@ -5,10 +5,7 @@ use bevy::prelude::*;
 use crate::{
     FntAssets,
     asset_tracking::ResourceHandles,
-    i18n::{
-        LanguageRes,
-        config::{MAIN_CREDITS, MAIN_EXIT, MAIN_PLAY, MAIN_SETTINGS},
-    },
+    i18n::{LanguageRes, config::*},
     menus::Menu,
     screens::Screen,
     theme::widget,

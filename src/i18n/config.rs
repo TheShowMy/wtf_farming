@@ -27,7 +27,7 @@ pub const SETTINGS_CURRENT_VOLUME: &str = "CURRENT_VOLUME";
 /// 返回
 pub const BACK: &str = "BACK";
 
-pub fn init_language_res() -> LanguageRes {
+pub(crate) fn init_language_res() -> LanguageRes {
     let mut language_res = LanguageRes::default();
     language_res.zh_cn(MAIN_PLAY, "开始游戏");
     language_res.en_us(MAIN_PLAY, "PLAY");

@@ -47,6 +47,15 @@ impl Default for LanguageRes {
 }
 
 impl LanguageRes {
+    #[allow(dead_code)]
+    pub fn set_language(&mut self, language: LanguageId) {
+        if self.language_list.contains(&language) {
+            self.curr_language = language;
+        } else {
+            warn!("Unsupported language: {}", language);
+        }
+    }
+
     pub fn zh_cn(&mut self, key: &str, value: &str) {
         let language = LanguageId::ZhCn;
         self.add(language, key, value);
@@ -72,5 +81,32 @@ impl LanguageRes {
             .and_then(|map| map.get(key))
             .cloned()
             .unwrap_or_else(|| key.to_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*; // 引入当前模块的所有内容
+
+    #[test]
+    fn test_language_res_get() {
+        let mut lang_res = LanguageRes::default();
+        lang_res.zh_cn("HELLO", "你好");
+        lang_res.en_us("HELLO", "Hello");
+
+        assert_eq!(lang_res.get("HELLO"), "你好"); // 默认语言为简体中文
+        lang_res.set_language(LanguageId::EnUs);
+        assert_eq!(lang_res.get("HELLO"), "Hello"); // 切换到英语
+        assert_eq!(lang_res.get("UNKNOWN_KEY"), "UNKNOWN_KEY"); // 未知 Key 返回原始值
+    }
+
+    #[test]
+    fn test_set_language() {
+        let mut lang_res = LanguageRes::default();
+        lang_res.set_language(LanguageId::EnUs);
+        assert_eq!(lang_res.curr_language, LanguageId::EnUs);
+
+        lang_res.set_language(LanguageId::ZhCn);
+        assert_eq!(lang_res.curr_language, LanguageId::ZhCn);
     }
 }
