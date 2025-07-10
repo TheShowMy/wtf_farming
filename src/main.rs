@@ -5,9 +5,9 @@
 
 mod asset_tracking;
 mod audio;
-mod demo;
 #[cfg(feature = "dev")]
 mod dev_tools;
+mod games;
 mod i18n;
 mod menus;
 mod screens;
@@ -51,7 +51,7 @@ impl Plugin for AppPlugin {
             i18n::plugin,
             asset_tracking::plugin,
             audio::plugin,
-            demo::plugin,
+            games::plugin,
             #[cfg(feature = "dev")]
             dev_tools::plugin,
             menus::plugin,
