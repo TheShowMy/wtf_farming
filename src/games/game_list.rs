@@ -14,12 +14,12 @@ pub(super) fn plugin(app: &mut App) {
 /// 游戏列表资源
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
-struct GameList {
+pub struct GameList {
     pub games: Vec<GameItem>,
 }
 
 #[derive(Clone, Reflect)]
-struct GameItem {
+pub struct GameItem {
     /// 游戏名称
     pub name: String,
     /// 游戏描述
