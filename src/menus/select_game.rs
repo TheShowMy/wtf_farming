@@ -9,7 +9,7 @@ use bevy::{
 
 use crate::{
     AppSystems,
-    games::game_list::GameList,
+    games::game_list::{GameList, OpenGameEvent},
     i18n::config::SELECT_GAME_TITLE,
     menus::Menu,
     theme::{
@@ -38,10 +38,12 @@ fn spawn_select_game_menu(
     let game_items = game_list
         .games
         .iter()
-        .map(|item| {
+        .enumerate()
+        .map(|(index, item)| {
             (
                 lang_res.get(&item.name),
                 lang_res.get(&item.description), // Assuming name is unique
+                index,
             )
         })
         .collect::<Vec<_>>()
@@ -92,8 +94,10 @@ fn spawn_select_game_menu(
                                     Pickable::IGNORE,
                                 ),],
                             ))
-                            .observe(move |_: Trigger<Pointer<Click>>| {
-                                info!("Clicked on game button {}", index);
+                            .observe(move |_: Trigger<Pointer<Click>>, mut commands: Commands| {
+                                commands.trigger(OpenGameEvent {
+                                    index: game_items.2 as u8,
+                                });
                             });
                     }
                 })),
