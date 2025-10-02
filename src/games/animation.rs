@@ -139,7 +139,7 @@ impl PlayerAnimation {
     /// 更新动画计时器。
     pub fn update_timer(&mut self, delta: Duration) {
         self.timer.tick(delta);
-        if !self.timer.finished() {
+        if !self.timer.is_finished() {
             return;
         }
         self.frame = (self.frame + 1)
@@ -161,7 +161,7 @@ impl PlayerAnimation {
 
     /// 动画是否在此刻发生了变化。
     pub fn changed(&self) -> bool {
-        self.timer.finished()
+        self.timer.is_finished()
     }
 
     /// 返回图集中精灵的索引。

@@ -27,7 +27,7 @@ struct LoadingScreen;
 fn spawn_loading_screen(mut commands: Commands, font_res: Res<FntAssets>) {
     commands.spawn((
         widget::ui_root("Loading Screen"),
-        StateScoped(Screen::Loading),
+        DespawnOnExit(Screen::Loading),
         LoadingScreen,
         children![widget::label("Loading...", font_res.pixel())],
     ));

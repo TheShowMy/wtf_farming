@@ -62,7 +62,7 @@ pub fn label(text: impl Into<String>, font: Handle<Font>) -> impl Bundle {
 /// 一个带有文本和由 [`Observer`] 定义的操作的大型圆角按钮。
 pub fn button<E, B, M, I>(text: impl Into<String>, font: Handle<Font>, action: I) -> impl Bundle
 where
-    E: Event,
+    E: Event + EntityEvent,
     B: Bundle,
     I: IntoObserverSystem<E, B, M>,
 {
@@ -91,7 +91,7 @@ pub fn button_size<E, B, M, I>(
     action: I,
 ) -> impl Bundle
 where
-    E: Event,
+    E: Event + EntityEvent,
     B: Bundle,
     I: IntoObserverSystem<E, B, M>,
 {
@@ -120,7 +120,7 @@ pub fn button_small<E, B, M, I>(
     action: I,
 ) -> impl Bundle
 where
-    E: Event,
+    E: Event + EntityEvent,
     B: Bundle,
     I: IntoObserverSystem<E, B, M>,
 {
@@ -146,7 +146,7 @@ fn button_base<E, B, M, I>(
     button_bundle: impl Bundle,
 ) -> impl Bundle
 where
-    E: Event,
+    E: Event + EntityEvent,
     B: Bundle,
     I: IntoObserverSystem<E, B, M>,
 {

@@ -55,7 +55,7 @@ fn spawn_select_game_menu(
     commands.spawn((
         widget::ui_root("Select Game Menu"),
         GlobalZIndex(2),
-        StateScoped(Menu::SelectGame),
+        DespawnOnExit(Menu::SelectGame),
         children![
             widget::header(lang_res.get(SELECT_GAME_TITLE), font_res.pixel()),
             (
@@ -94,7 +94,7 @@ fn spawn_select_game_menu(
                                     Pickable::IGNORE,
                                 ),],
                             ))
-                            .observe(move |_: Trigger<Pointer<Click>>, mut commands: Commands| {
+                            .observe(move |_: On<Pointer<Click>>, mut commands: Commands| {
                                 commands.trigger(OpenGameEvent {
                                     index: game_items.2 as u8,
                                 });
@@ -121,12 +121,12 @@ fn spawn_select_game_menu(
     ));
 }
 
-fn go_back_on_click(_: Trigger<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
+fn go_back_on_click(_: On<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
     next_menu.set(Menu::Main);
 }
 
 pub fn update_scroll_position(
-    mut mouse_pointer_events: EventReader<PointerInput>,
+    mut mouse_pointer_events: MessageReader<PointerInput>,
     hover_map: Res<HoverMap>,
     mut scrolled_node_query: Query<&mut ScrollPosition>,
 ) {
@@ -138,8 +138,8 @@ pub fn update_scroll_position(
         for (_pointer, pointer_map) in hover_map.iter() {
             for (entity, _hit) in pointer_map.iter() {
                 if let Ok(mut scroll_position) = scrolled_node_query.get_mut(*entity) {
-                    scroll_position.offset_x -= -y;
-                    scroll_position.offset_y -= 0.;
+                    scroll_position.x -= -y;
+                    scroll_position.y -= 0.;
                 }
             }
         }

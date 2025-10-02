@@ -58,7 +58,7 @@ impl FromWorld for InteractionAssets {
 }
 
 fn play_on_hover_sound_effect(
-    trigger: Trigger<Pointer<Over>>,
+    trigger: On<Pointer<Over>>,
     mut commands: Commands,
     interaction_assets: Option<Res<InteractionAssets>>,
     interaction_query: Query<(), With<Interaction>>,
@@ -67,13 +67,13 @@ fn play_on_hover_sound_effect(
         return;
     };
 
-    if interaction_query.contains(trigger.target()) {
+    if interaction_query.contains(trigger.entity) {
         commands.spawn(sound_effect(interaction_assets.hover.clone()));
     }
 }
 
 fn play_on_click_sound_effect(
-    trigger: Trigger<Pointer<Click>>,
+    trigger: On<Pointer<Click>>,
     mut commands: Commands,
     interaction_assets: Option<Res<InteractionAssets>>,
     interaction_query: Query<(), With<Interaction>>,
@@ -82,7 +82,7 @@ fn play_on_click_sound_effect(
         return;
     };
 
-    if interaction_query.contains(trigger.target()) {
+    if interaction_query.contains(trigger.entity) {
         commands.spawn(sound_effect(interaction_assets.click.clone()));
     }
 }

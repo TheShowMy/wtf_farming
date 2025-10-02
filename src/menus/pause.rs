@@ -25,7 +25,7 @@ fn spawn_pause_menu(mut commands: Commands, font_res: Res<FntAssets>, lang_res: 
     commands.spawn((
         widget::ui_root("Pause Menu"),
         GlobalZIndex(2),
-        StateScoped(Menu::Pause),
+        DespawnOnExit(Menu::Pause),
         children![
             widget::header(lang_res.get(PAUSE_GAME_TITLE), font_res.pixel()),
             widget::button(lang_res.get(PAUSE_CONTINUE), font_res.pixel(), close_menu),
@@ -43,15 +43,15 @@ fn spawn_pause_menu(mut commands: Commands, font_res: Res<FntAssets>, lang_res: 
     ));
 }
 
-fn open_settings_menu(_: Trigger<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
+fn open_settings_menu(_: On<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
     next_menu.set(Menu::Settings);
 }
 
-fn close_menu(_: Trigger<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
+fn close_menu(_: On<Pointer<Click>>, mut next_menu: ResMut<NextState<Menu>>) {
     next_menu.set(Menu::None);
 }
 
-fn quit_to_title(_: Trigger<Pointer<Click>>, mut next_screen: ResMut<NextState<Screen>>) {
+fn quit_to_title(_: On<Pointer<Click>>, mut next_screen: ResMut<NextState<Screen>>) {
     next_screen.set(Screen::Title);
 }
 

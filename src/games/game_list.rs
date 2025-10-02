@@ -11,7 +11,7 @@ use crate::{
 };
 
 pub(super) fn plugin(app: &mut App) {
-    app.add_event::<OpenGameEvent>();
+    app.add_message::<OpenGameEvent>();
     app.register_type::<GameList>();
     app.insert_resource(load_game_list());
     app.add_observer(open_game_event_handler);
@@ -35,7 +35,7 @@ pub struct GameItem {
 }
 
 ///打开游戏事件
-#[derive(Event, Clone)]
+#[derive(Event, Message, Clone)]
 pub struct OpenGameEvent {
     pub index: u8,
 }
@@ -52,7 +52,7 @@ fn load_game_list() -> GameList {
 }
 
 fn open_game_event_handler(
-    open_game_triggers: Trigger<OpenGameEvent>,
+    open_game_triggers: On<OpenGameEvent>,
     game_list: Res<GameList>,
     resource_handles: Res<ResourceHandles>,
     mut next_screen: ResMut<NextState<Screen>>,
