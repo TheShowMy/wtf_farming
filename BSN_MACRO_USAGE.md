@@ -96,8 +96,8 @@ children![
         // 外层容器
         children![
             // 内层子组件
-            widget::button(...),
-            widget::button(...),
+            widget::button("Button 1", font.clone()),
+            widget::button("Button 2", font.clone()),
         ]
     ))
 ]
@@ -112,5 +112,6 @@ children![
 ## 相关资源 (Related Resources)
 
 - [Bevy 官方文档](https://bevyengine.org/)
-- [bevy_ecs 文档](https://docs.rs/bevy_ecs/latest/bevy_ecs/)
+- [bevy_ecs 文档](https://docs.rs/bevy_ecs/latest/bevy_ecs/) - `children!` 宏的详细文档
+- [Bevy UI 示例](https://bevyengine.org/examples/UI/)
 - [Clippy 配置文档](https://doc.rust-lang.org/clippy/configuration.html)
